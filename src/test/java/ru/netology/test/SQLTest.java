@@ -1,13 +1,13 @@
-package ry.netology.test;
+package ru.netology.test;
 
 import org.junit.jupiter.api.*;
 import ru.netology.page.LoginPage;
-import ry.netology.helper.DataHelper;
-import ry.netology.helper.SQLHelper;
+import ru.netology.helper.DataHelper;
+import ru.netology.helper.SQLHelper;
 
 import static com.codeborne.selenide.Selenide.open;
-import static ry.netology.helper.SQLHelper.cleanAuthCodes;
-import static ry.netology.helper.SQLHelper.cleanDatabase;
+import static ru.netology.helper.SQLHelper.cleanAuthCodes;
+import static ru.netology.helper.SQLHelper.cleanDatabase;
 
 public class SQLTest {
     LoginPage loginPage;
@@ -37,13 +37,17 @@ public class SQLTest {
 
     @Test
     void accountIsBlockedAfterThreeIncorrectAttempts() {
-        DataHelper.AuthInfo randomUser = DataHelper.generateRandomUser();
-        for(int i =0; i<3; i++) {
-            loginPage.login(randomUser);
-            loginPage.ErrorNotification("Ошибка! Неверно указан логин или пароль");
+        SQLHelper.cleanAuthCodes();
 
-            loginPage.login(randomUser);
-            loginPage.ErrorNotification("Ошибка! Неверно указан логин или пароль");
+        for (int i = 0; i < 3; i++) {
+
+            loginPage.login(new DataHelper.AuthInfo(authInfo.getLogin(), "wrong_password_" + i));
+            loginPage.errorNotification("Ошибка! Неверно указан логин или пароль");
         }
     }
 }
+
+
+
+
+

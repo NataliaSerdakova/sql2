@@ -1,4 +1,4 @@
-package ry.netology.helper;
+package ru.netology.helper;
 
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;

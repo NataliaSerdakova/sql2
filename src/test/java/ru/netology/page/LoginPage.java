@@ -1,7 +1,7 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
-import ry.netology.helper.DataHelper;
+import ru.netology.helper.DataHelper;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
@@ -14,7 +14,7 @@ public class LoginPage {
     private final SelenideElement loginButton = $("[data-test-id=action-login]");
     private final SelenideElement errorNotification = $("[data-test-id='error-notification'] .notification__content");
 
-    public void ErrorNotification(String expectedText) {
+    public void errorNotification(String expectedText) {
         errorNotification.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
 
@@ -24,7 +24,9 @@ public class LoginPage {
     }
 
     public void login(DataHelper.AuthInfo info) {
+        loginField.clear();
         loginField.setValue(info.getLogin());
+        passwordField.clear();
         passwordField.setValue(info.getPassword());
         loginButton.click();
     }

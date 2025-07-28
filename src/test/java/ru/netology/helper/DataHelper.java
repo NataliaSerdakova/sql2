@@ -1,4 +1,4 @@
-package ry.netology.helper;
+package ru.netology.helper;
 
 import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
