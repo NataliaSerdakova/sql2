@@ -1,6 +1,7 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
 import ru.netology.helper.DataHelper;
 
 import static com.codeborne.selenide.Condition.exactText;
@@ -24,9 +25,9 @@ public class LoginPage {
     }
 
     public void login(DataHelper.AuthInfo info) {
-        loginField.clear();
+        loginField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         loginField.setValue(info.getLogin());
-        passwordField.clear();
+        passwordField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         passwordField.setValue(info.getPassword());
         loginButton.click();
     }

@@ -4,9 +4,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class SQLHelper {
     private static final QueryRunner QUERY_RUNNER = new QueryRunner();
@@ -41,5 +39,20 @@ public class SQLHelper {
         try (var conn = getConn()) {
             QUERY_RUNNER.execute(conn, "DELETE FROM auth_codes");
         }
+    }
+
+    public static boolean isUserBlocked(String login) {
+        String sqlQuery = "SELECT status FROM users WHERE login=?";
+        try(Connection connection = getConn()) {
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                return "blocked".equalsIgnoreCase(resultSet.getString("status"));
+            }
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
