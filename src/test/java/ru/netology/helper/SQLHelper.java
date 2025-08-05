@@ -3,6 +3,7 @@ package ru.netology.helper;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.*;
 
@@ -41,18 +42,17 @@ public class SQLHelper {
         }
     }
 
-    public static boolean isUserBlocked(String login) {
+    public static String getUserStatus(String login) throws SQLException {
         String sqlQuery = "SELECT status FROM users WHERE login=?";
-        try(Connection connection = getConn()) {
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
-                return "blocked".equalsIgnoreCase(resultSet.getString("status"));
-            }
-        } catch(SQLException e) {
-            throw new RuntimeException(e);
+        try (var conn = getConn()) {
+            Object statusObj = QUERY_RUNNER.query(conn, sqlQuery, new ScalarHandler<>(), login);
+            return statusObj != null ? statusObj.toString() : "";
         }
-        return false;
     }
 }
+
+
+
+
+
+
