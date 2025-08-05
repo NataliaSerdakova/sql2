@@ -45,8 +45,9 @@ public class SQLHelper {
     public static String getUserStatus(String login) throws SQLException {
         String sqlQuery = "SELECT status FROM users WHERE login=?";
         try (var conn = getConn()) {
-            Object statusObj = QUERY_RUNNER.query(conn, sqlQuery, new ScalarHandler<>(), login);
-            return statusObj != null ? statusObj.toString() : "";
+            return QUERY_RUNNER.query(conn, sqlQuery, new ScalarHandler<>(), login);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при получении статуса пользователя: " + e.getMessage(), e );
         }
     }
 }
