@@ -40,7 +40,7 @@ public class SQLTest {
     }
 
     @Test
-    void accountIsBlockedAfterThreeIncorrectAttempts() throws SQLException {
+    void accountIsBlockedAfterThreeIncorrectAttempts()  {
         SQLHelper.cleanAuthCodes();
 
         for (int i = 0; i < 3; i++) {
